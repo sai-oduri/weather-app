@@ -20,8 +20,10 @@ export const Weather = () => {
     const searchLocation = () => {
         axios.get(url).then((response) => {
             setData(response.data);
-            console.log(data);
-        });
+            // console.log(data);
+        }).catch(err => {
+            console.log("city not found");
+        })
         if (data.weather) {
             if (
                 data.weather[0].icon === "01d" ||
@@ -56,6 +58,7 @@ export const Weather = () => {
                 setIcon(clear_icon);
             }
         }
+
         setLocation("");
     };
 
@@ -87,49 +90,66 @@ export const Weather = () => {
                     <img src={search_icon} alt="/" />
                 </div>
             </div>
-            <div className="flex justify-center mt-2">
-                <img src={icon} alt="/" />
-            </div>
-            <div className="text-white font-semibold text-6xl sm:text-[100px] text-center">
-                {/* 24° c */}
-                {data.main ? <>{data.main.temp}° c </> : <>° c</>}
-            </div>
-            <div className="text-white font-semibold text-[40px] text-center">
-                {data.name}
-            </div>
-            <div className="flex justify-around text-white">
-                <div className="flex items-center">
-                    <img
-                        className="h-12 w-12 m-2"
-                        src={humidity_icon}
-                        alt="icon"
-                    />
 
-                    <div>
-                        {/* <div>64%</div> */}
-                        <div>
-                            {data.main ? <>{data.main.humidity}% </> : <>%</>}
-                        </div>
-                        <div>Humidity</div>
+            {data.name != undefined && (
+                <>
+                    <div className="flex justify-center mt-2">
+                        <img src={icon} alt="/" />
                     </div>
-                </div>
-
-                <div className="flex items-center">
-                    <img className="h-12 w-12 m-2" src={wind_icon} alt="icon" />
-
-                    <div>
-                        {/* <div>18 km/h</div> */}
-                        <div>
-                            {data.wind ? (
-                                <>{data.wind.speed}km/h </>
-                            ) : (
-                                <>km/h</>
-                            )}
-                        </div>
-                        <div>Wind Speed</div>
+                    <div className="text-white font-semibold text-6xl sm:text-[100px] text-center">
+                        {/* 24° c */}
+                        {data.main ? (
+                            <>{Math.floor(data.main.temp)}°C </>
+                        ) : (
+                            <>°C</>
+                        )}
                     </div>
-                </div>
-            </div>
+                    <div className="text-white font-semibold text-[40px] text-center">
+                        {data.name}
+                    </div>
+                    <div className="flex justify-around text-white">
+                        <div className="flex items-center">
+                            <img
+                                className="h-12 w-12 m-2"
+                                src={humidity_icon}
+                                alt="icon"
+                            />
+
+                            <div>
+                                {/* <div>64%</div> */}
+                                <div>
+                                    {data.main ? (
+                                        <>{data.main.humidity}% </>
+                                    ) : (
+                                        <>%</>
+                                    )}
+                                </div>
+                                <div>Humidity</div>
+                            </div>
+                        </div>
+
+                        <div className="flex items-center">
+                            <img
+                                className="h-12 w-12 m-2"
+                                src={wind_icon}
+                                alt="icon"
+                            />
+
+                            <div>
+                                {/* <div>18 km/h</div> */}
+                                <div>
+                                    {data.wind ? (
+                                        <>{data.wind.speed}km/h </>
+                                    ) : (
+                                        <>km/h</>
+                                    )}
+                                </div>
+                                <div>Wind Speed</div>
+                            </div>
+                        </div>
+                    </div>
+                </>
+            )}
         </div>
     );
 };
