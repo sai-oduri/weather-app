@@ -12,10 +12,9 @@ import wind_icon from "../Assets/wind.png";
 
 export const Weather = () => {
     const [data, setData] = useState({});
-    const [current, setCurrent] = useState("");
+    const [icon, setIcon] = useState(clear_icon);
     const [location, setLocation] = useState("");
 
-    // const url = "https://api.openweathermap.org/data/2.5/weather?q=london&appid=7dd1f4155311373b6db7d68bd32d318f";
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=Metric&appid=7dd1f4155311373b6db7d68bd32d318f`;
 
     const searchLocation = () => {
@@ -23,6 +22,40 @@ export const Weather = () => {
             setData(response.data);
             console.log(data);
         });
+        if (data.weather) {
+            if (
+                data.weather[0].icon === "01d" ||
+                data.weather[0].icon === "01n"
+            ) {
+                setIcon(clear_icon);
+            } else if (
+                data.weather[0].icon === "02d" ||
+                data.weather[0].icon === "02n"
+            ) {
+                setIcon(cloud_icon);
+            } else if (
+                data.weather[0].icon === "03d" ||
+                data.weather[0].icon === "03n" ||
+                data.weather[0].icon === "04d" ||
+                data.weather[0].icon === "04n"
+            ) {
+                setIcon(drizzle_icon);
+            } else if (
+                data.weather[0].icon === "09d" ||
+                data.weather[0].icon === "09n" ||
+                data.weather[0].icon === "10d" ||
+                data.weather[0].icon === "10n"
+            ) {
+                setIcon(rain_icon);
+            } else if (
+                data.weather[0].icon === "13d" ||
+                data.weather[0].icon === "13n"
+            ) {
+                setIcon(snow_icon);
+            } else {
+                setIcon(clear_icon);
+            }
+        }
         setLocation("");
     };
 
@@ -36,12 +69,8 @@ export const Weather = () => {
         searchLocation();
     };
 
-    // const weat = () => {
-    //     data.weather ? data.weather[0].main : null;
-    // }
-
     return (
-        <div className="bg-gradient-to-r from-purple-500 to-violet-500 h-[670px] w-[400px] md:w-[550px] m-auto mt-5 px-4 flex flex-col rounded-2xl">
+        <div className="bg-gradient-to-r from-purple-500 to-violet-500 h-[670px] w-[400px] sm:w-[550px] m-auto mt-5 px-4 flex flex-col rounded-2xl">
             <div className="flex mt-10 justify-center p-4">
                 <input
                     value={location}
@@ -59,9 +88,9 @@ export const Weather = () => {
                 </div>
             </div>
             <div className="flex justify-center mt-2">
-                <img src={cloud_icon} alt="" />
+                <img src={icon} alt="/" />
             </div>
-            <div className="text-white font-semibold text-[100px] text-center">
+            <div className="text-white font-semibold text-6xl sm:text-[100px] text-center">
                 {/* 24° c */}
                 {data.main ? <>{data.main.temp}° c </> : <>° c</>}
             </div>
