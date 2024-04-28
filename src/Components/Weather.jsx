@@ -15,7 +15,7 @@ export const Weather = () => {
     const [icon, setIcon] = useState(clear_icon);
     const [location, setLocation] = useState("");
 
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=Metric&appid=7dd1f4155311373b6db7d68bd32d318f`;
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=Metric&appid=saioduriAPIkey`;
 
     const searchLocation = () => {
         axios.get(url).then((response) => {
